@@ -1,0 +1,19 @@
+.info-text {
+    text-align: center;
+  }
+
+  mat-expansion-panel {
+    display: flex;
+    align-items: start;
+    justify-content: center;
+    flex-flow: column wrap;
+    align-content: stretch;
+ }
+
+.formControls{
+    width: 50%
+}
+
+mat-expansion-panel-header{
+    width: 100%
+}

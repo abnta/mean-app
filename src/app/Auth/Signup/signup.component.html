@@ -1,0 +1,23 @@
+<mat-card>
+        <form  (submit)="onSignup(signupForm)" #signupForm="ngForm">
+          <mat-form-field>
+            <input matInput ngModel type="email"  placeholder="E-mail" name="email" #emailInput="ngModel" required>
+            <mat-error *ngIf="emailInput.invalid">Please enter a valid email address</mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput ngModel type="password" name="password" placeholder="password" #passwordInput="ngModel" required>
+            <mat-error *ngIf="passwordInput.invalid">Please enter a valid password.</mat-error>
+          </mat-form-field>
+          <mat-form-field >
+            <mat-label>Role</mat-label>
+            <mat-select #selectRole="ngModel" ngModel name="role" required>
+                <mat-option *ngFor="let role of roles" [value]="role.value">
+                    {{role.value}}
+                </mat-option>
+            </mat-select>
+            <mat-error *ngIf="selectRole.invalid">Please select at least one role</mat-error>
+        </mat-form-field>
+          <button mat-raised-button color="accent" type="submit">Signup</button>
+        </form>
+</mat-card>
+      

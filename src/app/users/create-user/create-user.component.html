@@ -1,0 +1,43 @@
+<mat-card>
+    <form class="formContainer" [formGroup]="form" (submit)="onSubmit()">
+        <mat-form-field class="formControls">
+            <input formControlName="name" matInput type="text" placeholder="Full name">
+            <mat-error *ngIf="form.get('name').invalid">Please enter valid name</mat-error>
+        </mat-form-field>
+        <mat-form-field class="formControls">
+            <input formControlName="email" matInput type="email" placeholder="E-mail">
+            <mat-error *ngIf="form.get('name').email">Please enter valid email</mat-error>
+        </mat-form-field>
+        <mat-form-field class="formControls">
+            <input formControlName="githubRepo" matInput type="text" placeholder="Github Repo">
+            <mat-error *ngIf="form.get('githubRepo').errors==null?false:true || form.get('githubRepo').invalid ">Please enter valid repository url</mat-error>
+        </mat-form-field>
+        <mat-form-field class="formControls">
+            <input formControlName="age" matInput type="number" placeholder="Age">
+            <mat-error *ngIf="form.get('age').invalid">Please enter valid age</mat-error>
+        </mat-form-field>
+        <mat-form-field class="formControls">
+            <mat-label>Gender</mat-label>
+            <mat-select formControlName="gender">
+                <mat-option *ngFor="let gender of genders" [value]="gender.value">
+                    {{gender.value}}
+                </mat-option>
+            </mat-select>
+            <mat-error *ngIf="form.get('gender').invalid">Please select at least one gender</mat-error>
+        </mat-form-field>
+        <mat-form-field class="formControls">
+            <input matInput formControlName="dob" [matDatepicker]="picker" placeholder="Date of birth">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+            <mat-error *ngIf="form.get('dob').invalid">Please select a date</mat-error>
+        </mat-form-field>
+        <mat-form-field class="formControls">
+            <textarea rows="3" formControlName="about" matInput placeholder="Write about yourself"></textarea>
+            <mat-error *ngIf="form.get('about').invalid">Please enter some content about yourself</mat-error>
+        </mat-form-field>
+        <div>
+            <button mat-raised-button type="submit" color="primary" >Submit</button>
+        </div>
+    </form>
+
+</mat-card>

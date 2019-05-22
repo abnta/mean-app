@@ -1,0 +1,31 @@
+
+<mat-accordion multi="true" *ngIf="fetchedUsers.length">
+  <mat-expansion-panel *ngFor="let user of fetchedUsers">
+    <mat-expansion-panel-header>
+      {{ user.email }}
+    </mat-expansion-panel-header>
+    <mat-form-field class="formControls">
+        <input matInput placeholder="Name" [disabled]="true" [(ngModel)]="user.name">
+    </mat-form-field>
+    <mat-form-field class="formControls">
+        <input matInput placeholder="github Repo" [disabled]="true" [(ngModel)]="user.githubRepo">
+    </mat-form-field >
+    <mat-form-field class="formControls">
+        <input matInput placeholder="Age" [disabled]="true" [(ngModel)]="user.age">
+    </mat-form-field >
+    <mat-form-field class="formControls">
+        <input matInput placeholder="Gender" [disabled]="true" [(ngModel)]="user.gender">
+    </mat-form-field >
+    <mat-form-field class="formControls">
+        <input matInput placeholder="About Yourself" [disabled]="true" [(ngModel)]="user.about">
+    </mat-form-field>
+    <mat-form-field class="formControls">
+        <input matInput placeholder="Date of birth" [disabled]="true" [(ngModel)]="user.dob">
+    </mat-form-field>
+    <mat-action-row >
+      <a mat-button color="primary" [disabled]="disableLink(user)" (click)="onEdit(user)" >EDIT</a>
+      <button mat-button color="warn" [disabled]="disableLink(user)" (click)="onDelete(user._id)">DELETE</button>
+    </mat-action-row>
+  </mat-expansion-panel>
+</mat-accordion>
+<p class="info-text mat-body-1" *ngIf="!fetchedUsers.length">No users added yet!</p>
