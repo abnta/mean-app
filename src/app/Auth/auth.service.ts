@@ -7,12 +7,13 @@ import { Subject } from 'rxjs';
 export class AuthService{
     constructor(private http:HttpClient){}
 
-    isAuthenticated = new Subject<boolean>()
+    private isAuthenticated = new Subject<boolean>()
     tokenTimer:any;
     token:string;
     _id:string;
     role:string;
     authenticated:boolean= false;
+    userChnanged = new Subject()
 
     signupUser(authUser:AuthUserModel){
         return this.http.post<{message:string,data:any,error:string|null}>('http://localhost:3000/api/auth/signup/',authUser)
@@ -21,6 +22,11 @@ export class AuthService{
     loginUser(email:string,password:string){
         return this.http.post<{message:string,data:any,error:string|null}>('http://localhost:3000/api/auth/login/',{email:email,password:password})
     }
+
+    exportAuthentication(){
+        return this.isAuthenticated.asObservable()
+    }
+
 
     saveAuthData(token:string,_id:string,expiresIn,role:string){
         const now = new Date()
@@ -73,7 +79,7 @@ export class AuthService{
             this.token = authInformation.token
             this._id = authInformation._id
             this.role = authInformation.role
-            this.isAuthenticated.next(true) ;
+            this.isAuthenticated.next(true);
             this.authenticated=true
             this.setAuthTimer(expiresIn/1000)
         }
@@ -87,6 +93,9 @@ export class AuthService{
         clearTimeout(this.tokenTimer)
         this.isAuthenticated.next(false)
         this.authenticated = false
+        this.userChnanged.next();
     }
+
+
 
 }

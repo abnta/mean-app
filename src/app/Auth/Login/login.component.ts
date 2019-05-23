@@ -24,6 +24,7 @@ export class LoginComponent{
                    this.authService.saveAuthData(response.data.token,response.data._id,response.data.expiresIn,response.data.role)
                    this.authService.setAuthTimer(response.data.expiresIn)
                 }
+                this.authService.userChnanged.next()
                 this.router.navigate(['/'])
             })
     }

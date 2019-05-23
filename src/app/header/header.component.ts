@@ -14,9 +14,10 @@ export class HeaderComponent implements OnInit , OnDestroy {
   isAuthenticated:boolean = this.authService.authenticated;
   authSubs:Subscription;
   ngOnInit() {
-   this.authSubs = this.authService.isAuthenticated.subscribe((data:boolean)=>{
-      this.isAuthenticated = data
-    })
+    this.isAuthenticated = this.authService.authenticated;
+   this.authSubs = this.authService.exportAuthentication().subscribe((data)=>{
+     this.isAuthenticated = data
+   })
   }
   onLogout(){
     this.authService.logout();

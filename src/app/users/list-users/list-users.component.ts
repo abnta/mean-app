@@ -10,51 +10,57 @@ import { AuthService } from 'src/app/Auth/auth.service';
     styleUrls: ['./list-users.component.css']
 })
 
-export class ListUsersComponent implements OnInit,OnDestroy {
-    fetchedUsers: User[]=[];
-    fetchUsersSub:Subscription;
-    isEditMode:boolean = false;
-    _id:string;
-    role:string;
+export class ListUsersComponent implements OnInit, OnDestroy {
+    fetchedUsers: User[] = [];
+    fetchUsersSub: Subscription;
+    userSubs: Subscription;
+    isEditMode: boolean = false;
+    _id: string;
+    role: string;
 
-    constructor(private userService:UserService,private router:Router,private authService:AuthService){}
+    constructor(private userService: UserService, private router: Router, private authService: AuthService) { }
     ngOnInit() {
-        this.userService.getUsers().subscribe((response)=>{
+        this.userService.getUsers().subscribe((response) => {
             this.fetchedUsers = response.data;
         })
 
-      this.fetchUsersSub =  this.userService.usersChanged.subscribe((response)=>{
+        this.fetchUsersSub = this.userService.usersChanged.subscribe((response) => {
             this.fetchedUsers = response
         })
 
-    this._id = this.authService._id;
-    this.role = this.authService.role;
+        this._id = this.authService._id;
+        this.role = this.authService.role;
+
+        this.userSubs = this.authService.userChnanged.subscribe(() => {
+            this._id = this.authService._id;
+            this.role = this.authService.role;
+        })
 
     }
 
-    onDelete(id:string){
-        this.userService.deleteUser(id).subscribe((response)=>{
+    onDelete(id: string) {
+        this.userService.deleteUser(id).subscribe((response) => {
             console.log(response)
             this.userService.fetchUsersList()
         })
     }
 
-    onEdit(user:User){
+    onEdit(user: User) {
         this.userService.editData.next(user)
-        this.router.navigate(['/edit',user._id])
+        this.router.navigate(['/edit', user._id])
     }
 
-    disableLink(user){
-        if((user._id==this._id)&& this.role=='user'){
+    disableLink(user) {
+        if ((user._id == this._id) && this.role == 'user') {
             return false
-        }else if(this.role == 'admin'){
+        } else if (this.role == 'admin') {
             return false
-        }else{
+        } else {
             return true
         }
     }
 
-    ngOnDestroy(){
+    ngOnDestroy() {
         this.fetchUsersSub.unsubscribe()
     }
 
